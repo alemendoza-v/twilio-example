@@ -1,11 +1,14 @@
 package com.goldie.example.controller;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +24,8 @@ public class WhatsAppController {
 
     @PostMapping("/callback")
     @ResponseStatus(HttpStatus.NO_CONTENT) 
-    public void handleCallback(@RequestBody WhatsAppResponse response) {
-        logger.info(response.getSmsStatus());
+    public void handleCallback(@RequestParam Map<String, String> response) {
+        logger.info(response.get("SmsStatus()"));
     }
     
     @PostMapping("/send")
