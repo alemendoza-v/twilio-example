@@ -25,7 +25,7 @@ public class WhatsAppController {
     @PostMapping("/callback")
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void handleCallback(@RequestParam Map<String, String> response) {
-        logger.info(response.get("SmsStatus()"));
+        logger.info(response.get("SmsStatus"));
     }
     
     @PostMapping("/send")
