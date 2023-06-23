@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.goldie.example.model.WhatsAppResponse;
 import com.goldie.example.service.WhatsAppService;
 
 @RestController
@@ -25,7 +24,7 @@ public class WhatsAppController {
     @PostMapping("/callback")
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void handleCallback(@RequestParam Map<String, String> response) {
-        logger.info(response.get("SmsStatus"));
+        logger.info(whatsAppService.handleCallback(response));
     }
     
     @PostMapping("/send")
