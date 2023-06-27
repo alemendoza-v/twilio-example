@@ -19,6 +19,12 @@ public class WhatsAppService {
     }
 
     public String handleCallback(Map<String, String> twilioResponse) {
+        String to = whatsAppSender.getMessage(twilioResponse.get("MessageSid"));
+
+        if (twilioResponse.get("MessageStatus").equals("failed")) {
+            return "Could not send message to: " + to;
+        }
+        
         StringBuilder messageInfo = new StringBuilder();
         messageInfo.append("Message ID: ").append(twilioResponse.get("MessageSid\n"));
         messageInfo.append("Message status: ").append(twilioResponse.get("MessageStatus"));

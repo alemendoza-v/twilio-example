@@ -1,6 +1,8 @@
 package com.goldie.example.sender;                                                                                                     
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ public class WhatsAppSender implements Sendable {
     @Value("${host}")
     private String host;
 
+    private final Map<String, String> messages = new HashMap<>();
+
     public WhatsAppSender() {
     }
 
@@ -31,15 +35,20 @@ public class WhatsAppSender implements Sendable {
     public boolean send(String notification, String to) {
         try {
             Twilio.init(accountSid, authToken);
-            Message.creator(
-                new PhoneNumber("whatsapp:+521" + to),
-                new PhoneNumber("whatsapp:" + phoneNumber),
-                notification)
-            .setStatusCallback(URI.create(host + "/callback"))
-            .create();
+            Message message = Message.creator(
+                    new PhoneNumber("whatsapp:+521" + to),
+                    new PhoneNumber("whatsapp:" + phoneNumber),
+                    notification)
+                .setStatusCallback(URI.create(host + "/callback"))
+                .create();
+            messages.put(message.getSid(), message.getTo());
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public String getMessage(String sid) {
+        return messages.get(sid);
     }
 }
